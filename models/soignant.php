@@ -49,6 +49,7 @@ function get_disciplines()
 function get_soignants_by_user($user_id)
 {
     $connection = open_connection();
+    // commentaire
 
     $sql = "SELECT
                 s.id,
