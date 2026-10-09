@@ -1,0 +1,4 @@
+# Empêche l'accès direct aux paramètres de connexion via Apache.
+<FilesMatch "^(config(-private|-sample)?\.php)$">
+    Require all denied
+</FilesMatch>

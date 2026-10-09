@@ -1,0 +1,369 @@
+/* ============================================================
+   STYLE GENERAL
+   CSS volontairement simple pour rester facile à expliquer.
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.header {
+    min-height: 70px;
+    padding: 15px 20px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.menu-button {
+    border: 0;
+    background: #2563eb;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.menu {
+    display: none;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 15px 20px;
+}
+
+.menu-open {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.container {
+    width: min(100% - 30px, 1000px);
+    margin: 30px auto;
+}
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin-bottom: 8px;
+}
+
+.auth-card,
+.card,
+.empty-card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.auth-card {
+    width: min(100%, 450px);
+    margin: 30px auto;
+}
+
+.dashboard-grid,
+.cards {
+    display: grid;
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    color: #1f2937;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+}
+
+.icon {
+    font-size: 35px;
+}
+
+label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: white;
+    font: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #93c5fd;
+    border-color: #2563eb;
+}
+
+input:disabled {
+    background: #eef2f7;
+}
+
+.button {
+    display: inline-block;
+    border: 0;
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.button:hover {
+    background: #1d4ed8;
+}
+
+.button.secondary {
+    background: #64748b;
+}
+
+.button.danger {
+    background: #dc2626;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.actions .button {
+    margin-top: 10px;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.alert.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.alert.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.info-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #eff6ff;
+}
+
+.small-text {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.center {
+    text-align: center;
+}
+
+.error-number {
+    font-size: 70px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+/* Sur ordinateur, les cartes peuvent être côte à côte. */
+@media (min-width: 700px) {
+
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+/* ============================================================
+   RECHERCHE DES SOIGNANTS
+   ============================================================ */
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form input {
+    margin: 0;
+}
+
+.page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.page-actions .button {
+    margin-top: 0;
+}
+
+/* ============================================================
+   EN-TETE D'UNE CARTE SOIGNANT
+   ============================================================ */
+
+.soignant-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+/* ============================================================
+   BOUTON COEUR FAVORI
+   ============================================================ */
+
+.favorite-button {
+    border: 0;
+    background: white;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.favorite-button:hover {
+    transform: scale(1.1);
+}
+
+.favorite-button.active {
+    color: #dc2626;
+}
+
+/* ============================================================
+   RESULTATS DE RECHERCHE
+   ============================================================ */
+
+.search-results {
+    margin-bottom: 25px;
+}
+
+.rdv-form-card {
+    margin-top: 25px;
+}
+
+/* Sur petit écran, les boutons passent en colonne. */
+@media (max-width: 699px) {
+
+    .page-actions {
+        flex-direction: column;
+    }
+
+    .page-actions .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .actions .button {
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+/* ===== Refonte visuelle YouCanBookMe : présentation uniquement ===== */
+:root{--teal:#008f98;--teal-dark:#087b85;--navy:#102a43;--muted:#6c8195;--line:#dfeaf1;--pale:#eaf9fa;--shadow:0 12px 35px rgba(15,56,79,.09)}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:linear-gradient(145deg,#f0fbfc,#f6f9fd 65%,#edf7fb);color:var(--navy);min-height:100vh;font-size:14px}
+a{color:var(--teal-dark)}
+.header{min-height:70px;padding:12px max(24px,calc((100vw - 1100px)/2));background:linear-gradient(110deg,#087c8a,#1ba4a4);border:0;box-shadow:0 5px 18px rgba(8,100,112,.13);color:white}
+.logo{display:flex;align-items:center;gap:10px;color:white;font-size:19px;line-height:1.15;letter-spacing:-.4px}.logo:hover{color:white}.logo small{display:block;font-size:10px;letter-spacing:.2px;font-weight:400;opacity:.88;margin-top:3px}.brand-heart{font-size:28px;color:white}
+.header-user{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}.user-avatar{background:white;color:var(--teal);width:27px;height:27px;border-radius:50%;display:grid;place-items:center}.menu-button{border:0;background:rgba(255,255,255,.18);border-radius:9px;color:white;padding:5px 11px;font-size:20px}
+.menu{display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 3px 14px rgba(16,42,67,.04)}.menu a{padding:10px 18px;border-radius:10px;color:#4b657c;font-size:13px;font-weight:600}.menu a:hover,.menu a:focus{background:var(--pale);color:var(--teal-dark)}.menu .logout-link{color:#c05a64}
+.container{width:min(100% - 36px,1100px);margin:35px auto 65px}.page-header{margin-bottom:24px}.page-header h1{font-size:clamp(24px,3vw,32px);letter-spacing:-.7px;color:var(--navy);margin:0 0 9px}.page-header p{color:var(--muted);line-height:1.6;margin:0}
+.auth-card,.card,.empty-card,.dashboard-card{background:#fff;border:1px solid #e4edf3;border-radius:16px;box-shadow:var(--shadow);padding:25px}.auth-card{max-width:470px;margin:55px auto;padding:35px}.auth-card h1{font-size:27px;letter-spacing:-.5px}.auth-card>p{color:var(--muted)}
+.dashboard-grid,.cards{display:grid;gap:18px}.dashboard-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.dashboard-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;min-height:180px;transition:transform .2s,box-shadow .2s;color:var(--navy)}.dashboard-card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(0,120,140,.13)}.dashboard-card .icon{width:60px;height:60px;display:grid;place-items:center;background:#e5f8f8;border-radius:17px;font-size:29px}.dashboard-card:nth-child(2) .icon{background:#fff0f2}.dashboard-card:nth-child(3) .icon{background:#edf2ff}.dashboard-card:nth-child(4) .icon{background:#e8faf2}.dashboard-card h2{font-size:16px;margin:6px 0 0}.dashboard-card p{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
+.welcome-banner{display:flex;justify-content:space-between;align-items:center;padding:27px 30px;border-radius:17px;background:linear-gradient(105deg,#e8f9fb,#d6f2f7);border:1px solid #cfeef2;margin-bottom:22px}.welcome-banner strong{font-size:20px}.welcome-banner p{color:#527185;margin:9px 0 0}.welcome-banner>span{font-size:55px}
+label{font-size:13px;color:#37536b;margin-top:17px}input,select,textarea{border:1px solid #d7e5ed;border-radius:9px;padding:12px 14px;min-height:44px;color:var(--navy);transition:border-color .2s,box-shadow .2s}input:focus,select:focus,textarea:focus{outline:0;border-color:#12a3a8;box-shadow:0 0 0 3px rgba(0,153,160,.13)}
+.button{background:linear-gradient(105deg,#00999f,#00838f);border-radius:9px;padding:12px 20px;box-shadow:0 5px 12px rgba(0,142,151,.12);transition:filter .2s,transform .2s}.button:hover{background:linear-gradient(105deg,#00838f,#006d79);transform:translateY(-1px)}.button.secondary{background:#fff;color:#43677e;border:1px solid #b8d4e2;box-shadow:none}.button.danger{background:#e45e70}.alert,.info-box{border-radius:11px}.info-box{background:#eaf9fb}.favorite-button{color:#e46a7a;border-radius:9px}.favorite-button:hover{background:#fff0f2}.card h2,.empty-card h2{color:var(--navy)}
+@media(min-width:700px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.menu{gap:0}.menu a{padding:10px 12px}}
+@media(max-width:600px){.header{padding:12px 17px}.container{width:calc(100% - 26px);margin:22px auto 100px}.menu{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;justify-content:space-around;padding:7px 3px max(7px,env(safe-area-inset-bottom));border-top:1px solid var(--line);border-bottom:0;box-shadow:0 -6px 22px rgba(16,42,67,.08)}.menu a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:20px;padding:5px 6px}.menu a span{font-size:10px}.menu .logout-link{display:none}.menu.menu-open .logout-link{display:flex}.dashboard-grid{gap:12px}.dashboard-card{padding:17px 10px;min-height:155px}.dashboard-card h2{font-size:13px}.dashboard-card p{font-size:11px}.welcome-banner{padding:19px}.welcome-banner strong{font-size:17px}.welcome-banner>span{font-size:37px}.auth-card{margin:32px auto;padding:25px}.page-header h1{font-size:25px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+
+
+/* Réservation : retour visuel immédiat lors du choix d'un créneau. */
+.creneaux-list { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
+.creneaux-list .creneau-btn {
+    position:relative; margin:0; border:2px solid transparent;
+    background:linear-gradient(110deg,#159947,#24b45b); color:#fff;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+}
+.creneaux-list .creneau-btn:not(:disabled):not(.is-selected):hover { background:linear-gradient(110deg,#0f873c,#1a9d4d); transform:translateY(-2px); }
+.creneaux-list .creneau-btn:focus-visible { outline:3px solid #102a43; outline-offset:3px; }
+.creneaux-list .creneau-btn.is-selected,
+.creneaux-list .creneau-btn.is-selected:hover {
+    background:linear-gradient(110deg,#087c8a,#1ba4a4); color:#fff; border-color:#075e69;
+    box-shadow:0 0 0 4px rgba(8,124,138,.24), 0 7px 18px rgba(8,100,112,.25);
+    transform:translateY(-2px) scale(1.025);
+}
+.creneaux-list .creneau-btn.is-selected::before { content:"✓ "; font-weight:900; }
+.creneaux-list .creneau-btn.is-unavailable,
+.creneaux-list .creneau-btn.is-unavailable:hover {
+    background:#999; color:#fff; opacity:.65; cursor:not-allowed;
+    box-shadow:none; transform:none;
+}
+.creneau-selection-message {
+    margin:8px 0 14px; padding:10px 14px; border:1px dashed #aac6ce;
+    border-radius:10px; color:#486678; background:#f5f9fb; font-weight:600;
+}
+.creneau-selection-message.has-selection { border:1px solid #70c3c7; background:#eaf9fa; color:#075e69; }
+@media(prefers-reduced-motion:reduce) {
+    .creneaux-list .creneau-btn { transition:none; }
+    .creneaux-list .creneau-btn.is-selected { transform:none; }
+}
