@@ -1,9 +1,14 @@
 <?php
 // Ce contrôleur vérifie les mots de passe hachés et crée les sessions après connexion.
-// ============================================================
+
+
+
+
+// 
 // CONTROLEUR AUTHENTIFICATION
 // Login, inscription et déconnexion.
-// ============================================================
+
+
 
 require_once __DIR__ . "/../models/user.php";
 

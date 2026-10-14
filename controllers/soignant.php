@@ -1,11 +1,11 @@
 <?php
 // Ce contrôleur traite les demandes et vérifie les autorisations avant de modifier un soignant.
-// ============================================================
+// 
 // CONTROLEUR SOIGNANTS
-// ============================================================
+// 
 // Le controller reçoit les demandes de l'utilisateur.
 // Ensuite il appelle le model pour travailler avec la BDD.
-// ============================================================
+// 
 
 require_once __DIR__ . "/../models/soignant.php";
 

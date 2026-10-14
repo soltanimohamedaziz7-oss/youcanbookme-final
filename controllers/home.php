@@ -1,8 +1,8 @@
 <?php
 // Ce contrôleur gère les pages privées et les données du profil.
-// ============================================================
+// 
 // CONTROLEUR ACCUEIL ET PROFIL
-// ============================================================
+// 
 
 require_once __DIR__ . "/../models/user.php";
 require_once __DIR__ . "/../models/soignant.php";

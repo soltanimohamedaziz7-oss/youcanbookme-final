@@ -1,5 +1,8 @@
-<?php require __DIR__ . "/../layout.php"; ?>
+<?php
+// J'inclus la mise en page générale de mon site.
+require __DIR__ . "/../layout.php"; ?>
 
+<!-- Partie 1 : Titre de la page. -->
 <section class="page-header">
 
     <h1>
@@ -8,19 +11,23 @@
 
 </section>
 
+<!-- Partie 2 : Formulaire pour modifier les informations du soignant. -->
 <section class="card">
 
+    <!-- J'envoie les nouvelles informations au serveur avec la méthode POST. -->
     <form
         method="POST"
         action="index.php?route=soignant-edit&id=<?= (int) $soignant["id"] ?>"
     >
 
+        <!-- J'ajoute un jeton de sécurité au formulaire. -->
         <input
             type="hidden"
             name="csrf_token"
             value="<?= e(csrf_token()) ?>"
         >
 
+        <!-- Champ pour modifier le nom du soignant. -->
         <label for="nom">
             Nom
         </label>
@@ -33,6 +40,7 @@
             required
         >
 
+        <!-- Champ pour modifier le prénom du soignant. -->
         <label for="prenom">
             Prénom
         </label>
@@ -45,6 +53,7 @@
             required
         >
 
+        <!-- Champ pour modifier la date de naissance. -->
         <label for="date_naissance">
             Date de naissance
         </label>
@@ -57,6 +66,7 @@
             required
         >
 
+        <!-- Champ pour modifier l'adresse du soignant. -->
         <label for="adresse">
             Adresse
         </label>
@@ -68,6 +78,7 @@
             value="<?= e($soignant["adresse"]) ?>"
         >
 
+        <!-- Champ pour modifier l'adresse e-mail. -->
         <label for="mail">
             Email
         </label>
@@ -79,6 +90,7 @@
             value="<?= e($soignant["mail"]) ?>"
         >
 
+        <!-- Liste déroulante pour choisir la discipline du soignant. -->
         <label for="id_discipline">
             Discipline
         </label>
@@ -88,6 +100,7 @@
             name="id_discipline"
         >
 
+            <!-- Je parcours les disciplines disponibles pour remplir la liste. -->
             <?php foreach ($disciplines as $discipline): ?>
 
                 <option
@@ -101,6 +114,7 @@
 
         </select>
 
+        <!-- Ce bouton envoie le formulaire pour enregistrer les modifications. -->
         <button
             class="button"
             type="submit"
@@ -112,8 +126,10 @@
 
 </section>
 
+<!-- Partie 3 : Fin du contenu principal de la page. -->
 </main>
 
+<!-- Je charge le JavaScript utilisé pour le menu de navigation. -->
 <script src="views/menu.js"></script>
 
 </body>

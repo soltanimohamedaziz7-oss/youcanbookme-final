@@ -1,24 +1,31 @@
-<?php require __DIR__ . '/../layout.php'; ?>
+<?php
+// J'inclus la mise en page générale de mon site.
+require __DIR__ . '/../layout.php'; ?>
 
+<!-- Partie 1 : Titre et présentation de la page. -->
 <section class="page-header">
     <h1><?= $soignant_choisi ? 'Réserver un rendez-vous' : 'Prendre un rendez-vous' ?></h1>
     <p><?= $is_provider ? 'Recherchez un patient et réservez un créneau dans votre agenda.' : ($soignant_choisi ? 'Sélectionnez un horaire libre pour confirmer votre rendez-vous.' : 'Choisissez un soignant pour accéder à ses disponibilités.') ?></p>
 </section>
 
+<!-- Partie 2 : J'affiche un message si une erreur est présente. -->
 <?php if (!empty($error)): ?>
     <div class="alert error" role="alert"><?= e($error) ?></div>
 <?php endif; ?>
 
+<!-- Partie 3 : Si un soignant est choisi, j'affiche ses informations et le formulaire. -->
 <?php if ($soignant_choisi): ?>
     <?php if (!$is_provider): ?>
         <p><a class="button secondary" href="index.php?route=rdv-add">← Choisir un autre soignant</a></p>
     <?php endif; ?>
 
+    <!-- J'affiche le nom et la discipline du soignant choisi. -->
     <section class="card" aria-label="Soignant sélectionné" style="margin:16px 0">
         <h2><?= e($soignant_choisi['prenom'] . ' ' . $soignant_choisi['nom']) ?></h2>
         <p><strong>Discipline :</strong> <?= e($soignant_choisi['discipline'] ?? 'Non renseignée') ?></p>
     </section>
 
+    <!-- Un professionnel peut rechercher le patient concerné. -->
     <?php if ($is_provider): ?>
         <form method="GET" action="index.php" class="search-form">
             <input type="hidden" name="route" value="rdv-add">
@@ -27,12 +34,17 @@
         </form>
     <?php endif; ?>
 
+    <!-- Partie 4 : Formulaire pour préparer la réservation du rendez-vous. -->
     <section class="card rdv-form-card" id="reservation" data-soignant-id="<?= (int)$soignant_selectionne ?>">
         <h2>Informations du rendez-vous</h2>
         <form method="POST" action="index.php?route=rdv-add&amp;soignant_id=<?= (int)$soignant_selectionne ?><?= $is_provider ? '&amp;patient=' . urlencode($recherche_patient) : '' ?>">
+
+            <!-- J'envoie le jeton de sécurité avec le formulaire. -->
             <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+            <!-- Je transmets l'identifiant du soignant sélectionné. -->
             <input type="hidden" name="id_soignant" value="<?= (int)$soignant_selectionne ?>">
 
+            <!-- Partie 5 : Le professionnel doit choisir un patient. -->
             <?php if ($is_provider): ?>
                 <label for="id_user">Patient</label>
                 <select id="id_user" name="id_user" required>
@@ -44,10 +56,12 @@
                 <?php if (!$patients): ?><p class="small-text">Recherchez d’abord un patient pour réserver un rendez-vous.</p><?php endif; ?>
             <?php endif; ?>
 
+            <!-- Partie 6 : Affichage des créneaux disponibles ou déjà réservés. -->
             <label for="date">Date et heure</label>
             <p>Les créneaux disponibles sont verts. Cliquez sur un créneau : il devient turquoise, comme la barre de navigation. Les créneaux gris sont déjà réservés.</p>
             <div class="actions creneaux-list" id="creneaux-serveur" role="group" aria-label="Choix du créneau">
                 <?php foreach ($creneaux_page as $creneau): ?>
+                    <!-- Je vérifie si le créneau est disponible. -->
                     <?php $libre = (int)$creneau['disponible'] === 1; ?>
                     <button type="button" class="button creneau-btn<?= $libre ? '' : ' is-unavailable' ?>"
                         <?= $libre ? 'aria-pressed="false"' : 'disabled' ?>
@@ -56,38 +70,62 @@
                         <?= e($creneau['date_heure_affichage']) ?><?= $libre ? '' : ' — Déjà pris' ?>
                     </button>
                 <?php endforeach; ?>
+                <!-- J'affiche un message si aucun créneau n'est disponible dans la liste. -->
                 <?php if (!$creneaux_page): ?><p>Aucun créneau affichable pour ce soignant pour le moment.</p><?php endif; ?>
             </div>
+
+            <!-- Ce message indique le créneau sélectionné. -->
             <p class="creneau-selection-message" id="creneau-selection" role="status" aria-live="polite">Aucun créneau sélectionné.</p>
+
+            <!-- La date se remplit automatiquement après le choix d'un créneau. -->
             <input id="date" name="date" type="datetime-local" min="<?= date('Y-m-d\TH:i') ?>" value="<?= e($_POST['date'] ?? '') ?>" required readonly>
             <p class="small-text">La date est remplie automatiquement lorsque vous choisissez un créneau turquoise ci-dessus.</p>
 
+            <!-- Le motif est facultatif : il permet de préciser la raison du rendez-vous. -->
             <label for="description">Motif du rendez-vous (facultatif)</label>
             <textarea id="description" name="description" rows="4" placeholder="Exemple : consultation de contrôle..."><?= e($_POST['description'] ?? '') ?></textarea>
+
+            <!-- Ce bouton envoie les informations du rendez-vous au serveur. -->
             <button class="button" type="submit" <?= !$creneaux_page ? 'disabled' : '' ?>>Confirmer le rendez-vous</button>
         </form>
     </section>
+
+    <!-- Partie 7 : JavaScript pour sélectionner un créneau sans recharger la page. -->
     <script>
         (function () {
+            // Je récupère les éléments HTML dont j'ai besoin.
             const liste = document.getElementById('creneaux-serveur');
             const champ = document.getElementById('date');
             const message = document.getElementById('creneau-selection');
+
+            // Si un élément manque, j'arrête le script pour éviter une erreur.
             if (!liste || !champ || !message) return;
 
+            // Cette fonction met à jour le créneau choisi par l'utilisateur.
             function selectionner(bouton) {
+                // Je ne sélectionne pas un bouton désactivé.
                 if (!bouton || bouton.disabled) return;
+
+                // Je retire la sélection précédente.
                 liste.querySelectorAll('button[data-creneau]').forEach(function (autre) {
                     autre.classList.remove('is-selected');
                     if (!autre.disabled) autre.setAttribute('aria-pressed', 'false');
                 });
+
+                // Je mets en évidence le nouveau créneau.
                 bouton.classList.add('is-selected');
                 bouton.setAttribute('aria-pressed', 'true');
+
+                // Je remplis le champ de date avec la valeur du créneau.
                 champ.value = bouton.dataset.creneau;
                 champ.dispatchEvent(new Event('change', { bubbles: true }));
+
+                // J'affiche un message pour confirmer le choix.
                 message.textContent = '✓ Créneau sélectionné : ' + bouton.dataset.label;
                 message.classList.add('has-selection');
             }
 
+            // Je détecte le clic sur un créneau.
             liste.addEventListener('click', function (event) {
                 const bouton = event.target.closest('button[data-creneau]');
                 if (bouton && liste.contains(bouton)) selectionner(bouton);
@@ -96,7 +134,7 @@
 
             
 
-            // Conserver l'effet après une erreur de validation du formulaire.
+            // Je conserve l'effet après une erreur de validation du formulaire.
             if (champ.value) {
                 const dejaChoisi = Array.from(liste.querySelectorAll('button[data-creneau]'))
                     .find(function (bouton) { return !bouton.disabled && bouton.dataset.creneau === champ.value; });
@@ -105,12 +143,15 @@
         })();
     </script>
 
+<!-- Partie 8 : Si aucun soignant n'est choisi, j'affiche la recherche. -->
 <?php else: ?>
     <form method="GET" action="index.php" class="search-form">
         <input type="hidden" name="route" value="rdv-add">
         <input type="search" name="recherche" placeholder="Nom, prénom ou discipline..." value="<?= e($recherche) ?>">
         <button type="submit" class="button">Rechercher</button>
     </form>
+
+    <!-- J'affiche les soignants qui correspondent à la recherche. -->
     <?php if ($soignants): ?>
         <section class="search-results">
             <h2>Choisir un soignant</h2>
@@ -119,16 +160,20 @@
                     <article class="card">
                         <h3><?= e($soignant['prenom'] . ' ' . $soignant['nom']) ?></h3>
                         <p><strong>Discipline :</strong> <?= e($soignant['discipline'] ?? 'Non renseignée') ?></p>
+
+                        <!-- Le lien transmet l'identifiant du soignant sélectionné. -->
                         <a class="button" href="index.php?route=rdv-add&amp;soignant_id=<?= (int)$soignant['id'] ?>">Choisir ce soignant</a>
                     </article>
                 <?php endforeach; ?>
             </div>
         </section>
+    <!-- Si aucun résultat ne correspond à la recherche, j'affiche un message. -->
     <?php else: ?>
         <section class="empty-card"><p>Aucun soignant trouvé.</p></section>
     <?php endif; ?>
 <?php endif; ?>
 
+<!-- Partie 9 : Fin de la page et chargement du JavaScript du menu. -->
 </main>
 <script src="views/menu.js"></script>
 </body>

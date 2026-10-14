@@ -6,13 +6,9 @@
         404
     </div>
 
-    <h1>
-        Page introuvable
-    </h1>
+    <h1>Page introuvable</h1>
 
-    <p>
-        La page que vous cherchez n'existe pas.
-    </p>
+    <p>La page que vous cherchez n'existe pas.</p>
 
     <a
         class="button"
